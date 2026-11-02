@@ -1,4 +1,4 @@
-import { Formik, Form, Field } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import type { FormikHelpers } from "formik";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import * as Yup from "yup";
@@ -59,14 +59,12 @@ export default function NoteForm({ onCancel, onCreated }: NoteFormProps) {
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
-      {({ isSubmitting, touched, errors }) => (
+      {({ isSubmitting }) => (
         <Form className={css.form}>
           <div className={css.formGroup}>
             <label htmlFor="title">Title</label>
             <Field id="title" type="text" name="title" className={css.input} />
-            <span className={css.error} {...{ name: "title" }}>
-              {touched.title && errors.title ? errors.title : ""}
-            </span>
+            <ErrorMessage name="title" component="span" className={css.error} />
           </div>
 
           <div className={css.formGroup}>
@@ -78,9 +76,11 @@ export default function NoteForm({ onCancel, onCreated }: NoteFormProps) {
               rows={8}
               className={css.textarea}
             />
-            <span className={css.error} {...{ name: "content" }}>
-              {touched.content && errors.content ? errors.content : ""}
-            </span>
+            <ErrorMessage
+              name="content"
+              component="span"
+              className={css.error}
+            />
           </div>
 
           <div className={css.formGroup}>
@@ -92,9 +92,7 @@ export default function NoteForm({ onCancel, onCreated }: NoteFormProps) {
                 </option>
               ))}
             </Field>
-            <span className={css.error} {...{ name: "tag" }}>
-              {touched.tag && errors.tag ? errors.tag : ""}
-            </span>
+            <ErrorMessage name="tag" component="span" className={css.error} />
           </div>
 
           <div className={css.actions}>
